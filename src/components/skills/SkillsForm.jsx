@@ -1,25 +1,24 @@
-import React, { useState } from "react";
+// src/components/SkillsForm.js
+
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateSkill, addSkill, removeSkill } from "../../components/redux/action/skillsActions";
 import { Link } from "react-router-dom";
 
 const SkillsForm = () => {
-  const [skills, setSkills] = useState([""]);
+  const skills = useSelector((state) => state.skills.skills);
+  const dispatch = useDispatch();
 
-  // Handle input change
   const handleChange = (index, event) => {
-    const newSkills = [...skills];
-    newSkills[index] = event.target.value;
-    setSkills(newSkills);
+    dispatch(updateSkill(index, event.target.value));
   };
 
-  // Add new skill
-  const addSkill = () => {
-    setSkills([...skills, ""]);
+  const handleAddSkill = () => {
+    dispatch(addSkill());
   };
 
-  // Remove a skill
-  const removeSkill = (index) => {
-    const newSkills = skills.filter((_, i) => i !== index);
-    setSkills(newSkills);
+  const handleRemoveSkill = (index) => {
+    dispatch(removeSkill(index));
   };
 
   return (
@@ -41,11 +40,10 @@ const SkillsForm = () => {
               placeholder="e.g. JavaScript, Teamwork, Communication"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-400"
             />
-            {/* Remove button for each skill */}
             {skills.length > 1 && (
               <button
                 type="button"
-                onClick={() => removeSkill(index)}
+                onClick={() => handleRemoveSkill(index)}
                 className="ml-3 px-4 py-2 bg-red-500 text-white rounded-md"
               >
                 Remove
@@ -57,7 +55,7 @@ const SkillsForm = () => {
         {/* Add Skill Button */}
         <button
           type="button"
-          onClick={addSkill}
+          onClick={handleAddSkill}
           className="px-4 py-2 bg-green-500 text-white rounded-md"
         >
           Add Skill

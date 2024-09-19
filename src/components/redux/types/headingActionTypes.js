@@ -1,0 +1,9 @@
+export const SET_SELECTED_IMAGE = 'resume/SET_SELECTED_IMAGE';
+export const SET_FIRST_NAME = 'resume/SET_FIRST_NAME';
+export const SET_LAST_NAME = 'resume/SET_LAST_NAME';
+export const SET_PROFESSION = 'resume/SET_PROFESSION';
+export const SET_CITY_STATE = 'resume/SET_CITY_STATE';
+export const SET_POSTAL_CODE = 'resume/SET_POSTAL_CODE';
+export const SET_COUNTRY = 'resume/SET_COUNTRY';
+export const SET_PHONE = 'resume/SET_PHONE';
+export const SET_EMAIL = 'resume/SET_EMAIL';

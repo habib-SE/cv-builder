@@ -26,7 +26,7 @@ const TemplateGallery = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="flex flex-wrap -mx-4">
+      <div className="flex flex-wrap justify-center -mx-4">
         {templates.map((template) => (
           <TemplatesCard
             key={template.id}

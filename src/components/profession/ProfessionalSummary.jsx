@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+// src/components/ProfessionalSummary.js
+
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateSummary } from "../../components/redux/action/summaryActions";
 import { Link } from "react-router-dom";
 
 const ProfessionalSummary = () => {
-  const [summary, setSummary] = useState("");
+  const summary = useSelector((state) => state.professionalSummary.summary);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    setSummary(e.target.value);
+    dispatch(updateSummary(e.target.value));
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg h-full mt-10 shadow-md">
       {/* Heading */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Professional Summary
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-800">Professional Summary</h1>
         <p className="text-gray-600 mt-2">
           Write a short overview of your experience, skills, and achievements.
         </p>
@@ -37,13 +40,13 @@ const ProfessionalSummary = () => {
         </div>
         <div className=" flex justify-between items-center mt-6">
           <div>
-            <button className=" rounded-full border bg-yellow-200 md:px-20 px-9 py-2 ">
-              <Link to="/cv-heading"> Previous</Link>
+            <button className="rounded-full border bg-yellow-200 md:px-20 px-9 py-2">
+              <Link to="/cv-heading">Previous</Link>
             </button>
           </div>
           <div>
-            <button className=" rounded-full border bg-yellow-200 md:px-20 px-14 py-2 ">
-              <Link to="/cv-skills"> Next</Link>
+            <button className="rounded-full border bg-yellow-200 md:px-20 px-14 py-2">
+              <Link to="/cv-skills">Next</Link>
             </button>
           </div>
         </div>

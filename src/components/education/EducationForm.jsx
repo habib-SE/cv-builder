@@ -1,22 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setEducation } from "../../components/redux/reducer/educationReducer";
 import { Link } from "react-router-dom";
 
 const EducationForm = () => {
-  const [education, setEducation] = useState({
-    schoolName: "",
-    schoolLocation: "",
-    degree: "",
-    fieldOfStudy: "",
-    graduationMonth: "",
-    graduationYear: "",
-  });
+  const dispatch = useDispatch();
+  const education = useSelector((state) => state.education);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEducation((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    dispatch(setEducation({ [name]: value }));
   };
 
   return (
@@ -129,15 +122,15 @@ const EducationForm = () => {
             </div>
           </div>
         </div>
-        <div className=" flex justify-between items-center mt-6">
+        <div className="flex justify-between items-center mt-6">
           <div>
-            <button className=" rounded-full border bg-yellow-200 md:px-20 px-9 py-2 ">
-              <Link to="/cv-experience"> Previous</Link>
+            <button className="rounded-full border bg-yellow-200 md:px-20 px-9 py-2">
+              <Link to="/cv-experience">Previous</Link>
             </button>
           </div>
           <div>
-            <button className=" rounded-full border bg-yellow-200 md:px-20 px-14 py-2 ">
-              <Link to="/cv-details"> Next</Link>
+            <button className="rounded-full border bg-yellow-200 md:px-20 px-14 py-2">
+              <Link to="/cv-details">Next</Link>
             </button>
           </div>
         </div>

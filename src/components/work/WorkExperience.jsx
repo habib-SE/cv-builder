@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+// src/components/WorkExperience.js
+
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateWorkField } from '../../components/redux/action/workActions';
 
 const WorkExperience = () => {
-  const [work, setWork] = useState({
-    jobTitle: '',
-    employer: '',
-    location: '',
-    remote: false,
-    startDate: { month: '', year: '' },
-    endDate: { month: '', year: '' },
-    currentWork: false,
-  });
+  const work = useSelector((state) => state.work);
+  const dispatch = useDispatch();
 
   // Handle input change
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') {
-      setWork({ ...work, [name]: checked });
-    } else {
-      setWork({ ...work, [name]: value });
-    }
+    const fieldValue = type === 'checkbox' ? checked : value;
+    dispatch(updateWorkField(name, fieldValue));
+  };
+
+  const handleDateChange = (fieldName, fieldValue) => {
+    dispatch(updateWorkField(fieldName, fieldValue));
   };
 
   return (
@@ -94,10 +92,7 @@ const WorkExperience = () => {
               <select
                 name="startMonth"
                 value={work.startDate.month}
-                onChange={(e) => setWork({
-                  ...work,
-                  startDate: { ...work.startDate, month: e.target.value },
-                })}
+                onChange={(e) => handleDateChange('startDate', { month: e.target.value })}
                 className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
               >
                 <option value="">Month</option>
@@ -110,10 +105,7 @@ const WorkExperience = () => {
                 type="text"
                 name="startYear"
                 value={work.startDate.year}
-                onChange={(e) => setWork({
-                  ...work,
-                  startDate: { ...work.startDate, year: e.target.value },
-                })}
+                onChange={(e) => handleDateChange('startDate', { year: e.target.value })}
                 placeholder="Year"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
               />
@@ -127,10 +119,7 @@ const WorkExperience = () => {
               <select
                 name="endMonth"
                 value={work.endDate.month}
-                onChange={(e) => setWork({
-                  ...work,
-                  endDate: { ...work.endDate, month: e.target.value },
-                })}
+                onChange={(e) => handleDateChange('endDate', { month: e.target.value })}
                 className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
                 disabled={work.currentWork}
               >
@@ -144,10 +133,7 @@ const WorkExperience = () => {
                 type="text"
                 name="endYear"
                 value={work.endDate.year}
-                onChange={(e) => setWork({
-                  ...work,
-                  endDate: { ...work.endDate, year: e.target.value },
-                })}
+                onChange={(e) => handleDateChange('endDate', { year: e.target.value })}
                 placeholder="Year"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
                 disabled={work.currentWork}
@@ -167,7 +153,6 @@ const WorkExperience = () => {
             </div>
           </div>
         </div>
-      
       </form>
     </div>
   );
