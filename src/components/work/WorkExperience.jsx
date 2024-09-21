@@ -1,30 +1,62 @@
-// src/components/WorkExperience.js
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateWorkField } from '../../components/redux/action/workActions';
+import { Link } from 'react-router-dom';
 
 const WorkExperience = () => {
   const work = useSelector((state) => state.work);
   const dispatch = useDispatch();
+
+  // Load saved work experience data from localStorage on component mount
+  useEffect(() => {
+    const savedWork = localStorage.getItem('work');
+    if (savedWork) {
+      const parsedWork = JSON.parse(savedWork);
+      Object.keys(parsedWork).forEach((field) => {
+        dispatch(updateWorkField(field, parsedWork[field]));
+      });
+    }
+  }, [dispatch]);
 
   // Handle input change
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === 'checkbox' ? checked : value;
     dispatch(updateWorkField(name, fieldValue));
+    
+    // Save to localStorage
+    const updatedWork = { ...work, [name]: fieldValue };
+    localStorage.setItem('work', JSON.stringify(updatedWork));
   };
 
   const handleDateChange = (fieldName, fieldValue) => {
     dispatch(updateWorkField(fieldName, fieldValue));
+
+    // Save updated dates to localStorage
+    const updatedWork = {
+      ...work,
+      [fieldName]: { ...work[fieldName], ...fieldValue },
+    };
+    localStorage.setItem('work', JSON.stringify(updatedWork));
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 mt-10 bg-white rounded-lg shadow-md ">
       {/* Heading */}
       <div className="mb-6">
+        <div className=' flex items-center justify-between'>
+        <div>
         <h1 className="text-3xl font-bold text-gray-800">Tell us about your most recent job</h1>
         <p className="text-gray-600 mt-2">We'll start there and work backward.</p>
+        </div>
+        <div className="flex justify-end mb-4">
+        <button
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+         <Link to="/cv-template1">preview</Link> 
+        </button>
+      </div>
+        </div>
         <p className="text-red-600 mt-1">*</p><span className="text-sm">indicates a required field</span>
       </div>
 
@@ -121,7 +153,7 @@ const WorkExperience = () => {
                 value={work.endDate.month}
                 onChange={(e) => handleDateChange('endDate', { month: e.target.value })}
                 className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
-                disabled={work.currentWork}
+                // disabled={work.currentWork}
               >
                 <option value="">Month</option>
                 <option value="January">January</option>

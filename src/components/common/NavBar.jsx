@@ -45,12 +45,6 @@ const Navbar = () => {
 
           {/* User Icon and Mobile Menu */}
           <div className="hidden  md:flex items-center space-x-4">
-            <Link
-              to="/download"
-              className="border border-white rounded-lg px-4 py-2 text-black hover:text-white"
-            >
-              Download
-            </Link>
             <div className="relative">
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -115,13 +109,6 @@ const Navbar = () => {
           onClick={() => setIsMobileMenuOpen(false)}
         >
           Create Resume
-        </Link>
-        <Link
-          to="/download"
-          className="block border border-white rounded-lg px-4 py-2 text-gray-200 hover:text-white"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Download
         </Link>
         {!storedUserData ? (
           <>

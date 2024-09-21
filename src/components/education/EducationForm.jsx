@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setEducation } from "../../components/redux/reducer/educationReducer";
 import { Link } from "react-router-dom";
@@ -7,6 +7,19 @@ const EducationForm = () => {
   const dispatch = useDispatch();
   const education = useSelector((state) => state.education);
 
+  // Load data from local storage on mount
+  useEffect(() => {
+    const savedEducation = localStorage.getItem("educationData");
+    if (savedEducation) {
+      dispatch(setEducation(JSON.parse(savedEducation)));
+    }
+  }, [dispatch]);
+
+  // Save data to local storage on every change
+  useEffect(() => {
+    localStorage.setItem("educationData", JSON.stringify(education));
+  }, [education]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch(setEducation({ [name]: value }));
@@ -14,9 +27,18 @@ const EducationForm = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 mt-10 bg-white rounded-lg shadow-md">
+      <div className=" flex items-center justify-between">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">
         Tell us about your education
       </h1>
+      <div className="flex justify-end mb-4">
+        <button
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+         <Link to="/cv-template1">preview</Link> 
+        </button>
+      </div>
+      </div>
       <form>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* School Name */}
@@ -27,7 +49,7 @@ const EducationForm = () => {
             <input
               type="text"
               name="schoolName"
-              value={education.schoolName}
+              value={education.schoolName || ""}
               onChange={handleChange}
               placeholder="e.g. Harvard University"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
@@ -43,7 +65,7 @@ const EducationForm = () => {
             <input
               type="text"
               name="schoolLocation"
-              value={education.schoolLocation}
+              value={education.schoolLocation || ""}
               onChange={handleChange}
               placeholder="e.g. Lahore"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
@@ -57,7 +79,7 @@ const EducationForm = () => {
             </label>
             <select
               name="degree"
-              value={education.degree}
+              value={education.degree || ""}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
             >
@@ -78,7 +100,7 @@ const EducationForm = () => {
             <input
               type="text"
               name="fieldOfStudy"
-              value={education.fieldOfStudy}
+              value={education.fieldOfStudy || ""}
               onChange={handleChange}
               placeholder="e.g. Accountancy"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
@@ -93,7 +115,7 @@ const EducationForm = () => {
             <div className="flex space-x-4">
               <select
                 name="graduationMonth"
-                value={education.graduationMonth}
+                value={education.graduationMonth || ""}
                 onChange={handleChange}
                 className="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
               >
@@ -114,7 +136,7 @@ const EducationForm = () => {
               <input
                 type="text"
                 name="graduationYear"
-                value={education.graduationYear}
+                value={education.graduationYear || ""}
                 onChange={handleChange}
                 placeholder="Year"
                 className="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"

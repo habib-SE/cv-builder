@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   FaMapMarkerAlt,
@@ -7,7 +8,7 @@ import {
   FaGraduationCap,
 } from "react-icons/fa";
 
-const CVTemplate = ({ personalInfo, skills, workHistory, education }) => {
+const CVTemplate = ({ personalInfo, skills, workHistory, education, customDetails }) => {
   return (
     <div className=" w-full">
       <div className="max-w-sm mx-auto flex flex-col-2 border border-gray-600 shadow-lg rounded-lg">
@@ -72,6 +73,20 @@ const CVTemplate = ({ personalInfo, skills, workHistory, education }) => {
                 <p>
                   {edu.schoolName} - {edu.schoolLocation}
                 </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Custom Details */}
+          <div className="my-4">
+            <h2 className="text-2xl font-semibold flex items-center">
+              <FaRegListAlt className="mr-2" />
+              Custom Details
+            </h2>
+            {customDetails.map((detail, index) => (
+              <div key={index} className="mt-2">
+                <h3 className="font-bold">{detail.label}</h3>
+                <p>{detail.value}</p>
               </div>
             ))}
           </div>
